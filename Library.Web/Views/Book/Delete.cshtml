@@ -1,0 +1,21 @@
+@model Library.Core.Book
+@{
+    ViewData["Title"] = "Kitap Sil";
+}
+<h2 class="mb-4">Kitap Sil</h2>
+<div class="alert alert-danger">Bu kitabı silmek istediğinize emin misiniz?</div>
+<dl class="row">
+    <dt class="col-sm-2">Başlık</dt>
+    <dd class="col-sm-10">@Model.Title</dd>
+    <dt class="col-sm-2">Yazar</dt>
+    <dd class="col-sm-10">@Model.Author</dd>
+    <dt class="col-sm-2">Tür</dt>
+    <dd class="col-sm-10">@Model.Genre</dd>
+    <dt class="col-sm-2">Adet</dt>
+    <dd class="col-sm-10">@Model.Quantity</dd>
+</dl>
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="BookId" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+</form> 

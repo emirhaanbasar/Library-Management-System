@@ -1,0 +1,42 @@
+@model IEnumerable<Library.Core.Book>
+@{
+    ViewData["Title"] = "Kitaplar";
+}
+<h2 class="mb-4">Kitap Listesi</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Yeni Kitap Ekle</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Yazar</th>
+            <th>Tür</th>
+            <th>Adet</th>
+            <th>Kategoriler</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Title</td>
+            <td>@book.Author</td>
+            <td>@book.Genre</td>
+            <td>@book.Quantity</td>
+            <td>
+                @if (book.BookCategories != null)
+                {
+                    foreach (var cat in book.BookCategories)
+                    {
+                        <span class="badge bg-info me-1">@cat.Category?.Name</span>
+                    }
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-warning">Düzenle</a>
+                <a asp-action="Delete" asp-route-id="@book.BookId" class="btn btn-sm btn-danger">Sil</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table> 

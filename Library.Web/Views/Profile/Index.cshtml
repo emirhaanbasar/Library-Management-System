@@ -1,0 +1,42 @@
+@model Library.Core.User
+@{
+    ViewData["Title"] = "Profilim";
+}
+<h2>Profilim</h2>
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+<form asp-action="Index" method="post" class="w-50">
+    <div class="mb-3">
+        <label class="form-label">Ad</label>
+        <input type="text" class="form-control" value="@Model.FirstName" disabled />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Soyad</label>
+        <input type="text" class="form-control" value="@Model.LastName" disabled />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Kullanıcı Adı</label>
+        <input type="text" class="form-control" value="@Model.Username" disabled />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">E-posta</label>
+        <input type="email" name="email" class="form-control" value="@Model.Email" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Telefon</label>
+        <input type="text" name="phone" class="form-control" value="@Model.Phone" />
+    </div>
+    <hr />
+    <h5>Şifre Değiştir</h5>
+    <div class="mb-3">
+        <label class="form-label">Eski Şifre</label>
+        <input type="password" name="oldPassword" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Yeni Şifre</label>
+        <input type="password" name="newPassword" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Kaydet</button>
+</form> 

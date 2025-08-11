@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Personel Dashboard";
+}
+<h2 class="mb-4">Personel Dashboard</h2>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <a asp-action="AddStaff" class="btn btn-primary w-100">Yeni Personel Ekle</a>
+    </div>
+    <div class="col-md-6 mb-3">
+        <button class="btn btn-outline-secondary w-100" onclick="alert('Demo: Face ID ile giriş!')">Face ID ile Giriş (Demo)</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <a asp-controller="Book" asp-action="Index" class="btn btn-info w-100">Kitap Yönetimi</a>
+    </div>
+    <div class="col-md-6 mb-3">
+        <a asp-controller="SeatReservation" asp-action="Index" class="btn btn-info w-100">Koltuk Yönetimi</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <a asp-controller="Account" asp-action="Register" class="btn btn-success w-100">Kullanıcı Kayıtları</a>
+    </div>
+    <div class="col-md-6 mb-3">
+        <a href="/hangfire" class="btn btn-dark w-100">Arkaplan İşleri (Hangfire)</a>
+    </div>
+</div> 
