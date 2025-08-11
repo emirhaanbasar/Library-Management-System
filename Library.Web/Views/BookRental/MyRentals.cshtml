@@ -1,0 +1,46 @@
+@model IEnumerable<Library.Core.BookRental>
+@{
+    ViewData["Title"] = "Kiralanan Kitaplarım";
+}
+<h2 class="mb-4">Kiralanan Kitaplarım</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Kiralama Tarihi</th>
+            <th>İade</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var rental in Model)
+    {
+        <tr>
+            <td>@rental.Book?.Title</td>
+            <td>@rental.RentalDate.ToShortDateString()</td>
+            <td>
+                <form asp-action="Return" method="post" style="display:inline">
+                    <input type="hidden" name="rentalId" value="@rental.RentalId" />
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bu kitabı iade etmek istediğinizden emin misiniz?')">İade Et</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-secondary mt-3">Kitap Listesine Dön</a> 

@@ -1,0 +1,23 @@
+@model Library.Web.Models.BookRentalViewModel
+@{
+    ViewData["Title"] = "Kitap Kirala";
+}
+<h2 class="mb-4">@Model.BookTitle Kirala</h2>
+<form asp-action="Rent" method="post" class="needs-validation" novalidate>
+    <input type="hidden" asp-for="BookId" />
+    <div class="mb-3">
+        <label class="form-label">Başlangıç Tarihi</label>
+        <input asp-for="StartDate" class="form-control" type="date" readonly />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Teslim Tarihi</label>
+        <input asp-for="DueDate" class="form-control" type="date" readonly />
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Kirala</button>
+    <div class="mt-3 text-center">
+        <a asp-action="Index">Kitap Listesine Dön</a>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

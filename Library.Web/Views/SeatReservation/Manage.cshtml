@@ -1,0 +1,204 @@
+@model List<Library.Web.Models.SeatReservationManageViewModel>
+@{
+    ViewData["Title"] = "Koltuk Yönetimi";
+    var seats = Model.ToList();
+    int seatIndex = 0;
+    int tableCount = 5;
+    int seatsPerTable = 6;
+}
+<h2 class="mb-4 text-center">Kütüphane Oturma Planı (Yönetim)</h2>
+<div class="d-flex flex-wrap justify-content-center gap-5 align-items-start" style="min-height: 500px;">
+    @for (int t = 0; t < tableCount; t++)
+    {
+        <div class="table-area">
+            <div class="d-flex flex-row align-items-center justify-content-center">
+                <!-- Sol 3 koltuk -->
+                <div class="d-flex flex-column gap-3">
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        if (seatIndex < seats.Count)
+                        {
+                            var seat = seats[seatIndex++];
+                            <div class="seat-box @(seat.IsOccupied ? "occupied" : "free")"
+                                 style="cursor:pointer;"
+                                 data-bs-toggle="modal" data-bs-target="#seatModal" data-seatid="@seat.SeatId" data-username="@(seat.User?.FirstName + " " + seat.User?.LastName)" data-useremail="@seat.User?.Email" data-reservationid="@seat.ReservationId" data-occupied="@seat.IsOccupied">
+                                <div class="seat-number">@seat.SeatNumber</div>
+                                @if (seat.IsOccupied && seat.User != null)
+                                {
+                                    <span class="badge bg-light text-dark">Dolu</span>
+                                    <span class="seat-tooltip" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:4px 8px;border-radius:4px;white-space:nowrap;display:none;z-index:10;">
+                                        @seat.User.FirstName @seat.User.LastName
+                                    </span>
+                                }
+                                else if (!seat.IsOccupied)
+                                {
+                                    <a class="btn btn-light btn-sm mt-1 disabled">Boş</a>
+                                    <span class="seat-tooltip" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:4px 8px;border-radius:4px;white-space:nowrap;display:none;z-index:10;">
+                                        Boş
+                                    </span>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+                <!-- Masa -->
+                <div class="table-box mx-4 d-flex align-items-center justify-content-center">
+                    <span class="table-label">Masa @(t+1)</span>
+                </div>
+                <!-- Sağ 3 koltuk -->
+                <div class="d-flex flex-column gap-3">
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        if (seatIndex < seats.Count)
+                        {
+                            var seat = seats[seatIndex++];
+                            <div class="seat-box @(seat.IsOccupied ? "occupied" : "free")"
+                                 style="cursor:pointer;"
+                                 data-bs-toggle="modal" data-bs-target="#seatModal" data-seatid="@seat.SeatId" data-username="@(seat.User?.FirstName + " " + seat.User?.LastName)" data-useremail="@seat.User?.Email" data-reservationid="@seat.ReservationId" data-occupied="@seat.IsOccupied">
+                                <div class="seat-number">@seat.SeatNumber</div>
+                                @if (seat.IsOccupied && seat.User != null)
+                                {
+                                    <span class="badge bg-light text-dark">Dolu</span>
+                                    <span class="seat-tooltip" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:4px 8px;border-radius:4px;white-space:nowrap;display:none;z-index:10;">
+                                        @seat.User.FirstName @seat.User.LastName
+                                    </span>
+                                }
+                                else if (!seat.IsOccupied)
+                                {
+                                    <a class="btn btn-light btn-sm mt-1 disabled">Boş</a>
+                                    <span class="seat-tooltip" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:4px 8px;border-radius:4px;white-space:nowrap;display:none;z-index:10;">
+                                        Boş
+                                    </span>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="seatModal" tabindex="-1" aria-labelledby="seatModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="seatModalLabel">Koltuk Bilgisi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="modalSeatInfo"></div>
+        <form id="removeUserForm" method="post" asp-action="RemoveUserFromSeat">
+            <input type="hidden" name="reservationId" id="modalReservationId" />
+            <button type="submit" class="btn btn-danger mt-3" id="removeUserBtn" style="display:none;">Koltuktan Kaldır</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.table-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.table-box {
+    width: 120px;
+    height: 180px;
+    background: #424242;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 2.2rem;
+    margin: 0 18px;
+    box-shadow: 0 4px 16px #aaa;
+    color: #fff;
+    border: 4px solid #1976d2;
+    transition: box-shadow 0.2s;
+}
+.table-box:hover {
+    box-shadow: 0 8px 32px #1976d2;
+}
+.table-label {
+    font-size: 2.2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 1px 1px 6px #000;
+}
+.seat-box {
+    width: 80px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin: 6px 0;
+    box-shadow: 0 2px 8px #ccc;
+    border: 3px solid #888;
+    transition: transform 0.1s;
+    position: relative;
+}
+.seat-box.free {
+    background: #43a047;
+    color: #fff;
+    border-color: #388e3c;
+}
+.seat-box.occupied {
+    background: #e53935;
+    color: #fff;
+    border-color: #b71c1c;
+}
+.seat-box:hover {
+    transform: scale(1.07);
+    z-index: 2;
+    box-shadow: 0 0 10px #007bff;
+}
+.seat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+</style>
+@section Scripts {
+    <script>
+        // Tooltip gösterme
+        document.querySelectorAll('.seat-box').forEach(function(box) {
+            box.addEventListener('mouseenter', function() {
+                var tooltip = box.querySelector('.seat-tooltip');
+                if (tooltip) tooltip.style.display = 'block';
+            });
+            box.addEventListener('mouseleave', function() {
+                var tooltip = box.querySelector('.seat-tooltip');
+                if (tooltip) tooltip.style.display = 'none';
+            });
+        });
+        // Modal açılınca koltuk bilgilerini doldur
+        var seatModal = document.getElementById('seatModal');
+        seatModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var seatId = button.getAttribute('data-seatid');
+            var username = button.getAttribute('data-username');
+            var useremail = button.getAttribute('data-useremail');
+            var reservationId = button.getAttribute('data-reservationid');
+            var occupied = button.getAttribute('data-occupied') === 'True';
+            var infoDiv = document.getElementById('modalSeatInfo');
+            var removeBtn = document.getElementById('removeUserBtn');
+            var reservationInput = document.getElementById('modalReservationId');
+            if (occupied && username && username.trim() !== "") {
+                infoDiv.innerHTML = `<b>Kullanıcı:</b> ${username}<br/><b>Email:</b> ${useremail}`;
+                removeBtn.style.display = 'inline-block';
+                reservationInput.value = reservationId;
+            } else {
+                infoDiv.innerHTML = "<b>Bu koltuk şu anda boş.</b>";
+                removeBtn.style.display = 'none';
+                reservationInput.value = '';
+            }
+        });
+    </script>
+} 

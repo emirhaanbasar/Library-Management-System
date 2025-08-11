@@ -1,0 +1,83 @@
+@{
+    ViewData["Title"] = "Mail Sistemi Test";
+}
+
+<div class="container mt-4">
+    <h2>Mail Sistemi Test Sayfası</h2>
+    
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+    }
+    
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Test Mail Gönder</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="TestMail" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-posta Adresi</label>
+                            <input type="email" class="form-control" id="email" name="email" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Test Mail Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Rezervasyon Mail Testi</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="TestReservationMail" method="post">
+                        <div class="mb-3">
+                            <label for="reservationId" class="form-label">Rezervasyon ID</label>
+                            <input type="number" class="form-control" id="reservationId" name="reservationId" required />
+                        </div>
+                        <button type="submit" class="btn btn-warning">Rezervasyon Maili Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Sistem Bilgileri</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Hangfire Dashboard:</strong> 
+                            <a href="/hangfire" target="_blank">/hangfire</a>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Rezervasyon Sayfası:</strong> 
+                            <a href="/SeatReservation" target="_blank">/SeatReservation</a>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Mail Ayarları:</strong> 
+                            appsettings.json dosyasında SMTP ayarlarını kontrol edin
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
